@@ -79,5 +79,5 @@ Contato pessoal: [Isaac Victor Silva Rodrigues](isaacvictor@fisica.if.uff.br), e
 
 ## Licença
 
-Esse projeto está sobre a licença MIT, veja em [LICENSE.md](LICENSE.md) para detalhes.
+Esse projeto está sobre a licença MIT, veja em [LICENSE](LICENSE) para detalhes.
 
