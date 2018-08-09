@@ -8,6 +8,7 @@ import tkFileDialog as tkFD
 import sys
 import os.path
 from os import makedirs
+
 import code
 
 
@@ -89,7 +90,7 @@ if __name__=='__main__':
 
 
 
-    janela.title("Estratificação Visual dos Números interios via Fractais de Sierpinski v0.1")
+    janela.title(u"Estratificação Visual dos Números interios via Fractais de Sierpinski v0.1")
 
     #N DE LADOS
     LabN_lados=tk.Label(janela,text="Número de lados 'L' do fractal:",relief='ridge')
