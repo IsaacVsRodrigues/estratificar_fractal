@@ -8,5 +8,5 @@ setup(name='estratificar_fractal',
       author='Isaac Victor Silva Rodrigues',
       author_email='isaacvictor@fisica.if.uff.br',
       license='MIT',
-      packages=['estratificar','extratificar','crivios'],
+      packages=['estratificar','crivios'],
       zip_safe=False)
