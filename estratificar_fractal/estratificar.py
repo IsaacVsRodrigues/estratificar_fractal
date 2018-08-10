@@ -1,7 +1,6 @@
 ﻿from crivios import *
 from matplotlib.pyplot import plot, show, axis, legend, grid, annotate, subplot, title, scatter, xlabel, ylabel, colorbar
-
-
+import os
 def plt(Xn,Yn,Xnpri,Ynpri,inicio=0,num=False):
     '''Construct the scatter plot of the "n" and "npri" graphics. The graph "n" below the graph "npri" will be constructed.
      
@@ -22,7 +21,7 @@ def plt(Xn,Yn,Xnpri,Ynpri,inicio=0,num=False):
         for i in xrange(len(Xn)):
             annotate(str(i+inicio),xy=(Xn[i],Yn[i]))
     plot(Xn,Yn,'.',color='black')
-    plot(Xnpri,Ynpri,',',color='red')
+    plot(Xnpri,Ynpri,'.',color='red')
     axis('equal')
     show()
     return
