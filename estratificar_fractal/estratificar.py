@@ -1,6 +1,7 @@
 ﻿from crivios import *
 from matplotlib.pyplot import plot, show, axis, legend, grid, annotate, subplot, title, scatter, xlabel, ylabel, colorbar
 import os
+
 def plt(Xn,Yn,Xnpri,Ynpri,inicio=0,num=False):
     '''Construct the scatter plot of the "n" and "npri" graphics. The graph "n" below the graph "npri" will be constructed.
      
@@ -26,7 +27,7 @@ def plt(Xn,Yn,Xnpri,Ynpri,inicio=0,num=False):
     show()
     return
 
-def plt2(x,y,m='y',cmap='viridis',titulo='',xtex='',ytex='',num=False):
+def plt2(x,y,m='y',cmap='viridis',titulo='',xtex='',ytex='',inicio=0,num=False):
     '''Returns the scatter plot of points in ordered pairs X and Y.
     Args:
 
@@ -36,6 +37,7 @@ def plt2(x,y,m='y',cmap='viridis',titulo='',xtex='',ytex='',num=False):
     cmap (str) colormap used in the plot, read more at: matplotlib.org/users/colormaps.html. Default is 'viridis'
     titulo (str) Descriptive text that will appear in the title. Default is empry text ''
     xtex (str) Descriptive text that will appear on the x-axis. Default is empry text ''
+    inicio (Int) Start of the enumeration of the points of the graph "n". Default is 0. 
     ytex (str) Descriptive text that will appear on the y-axis. Default is empry text ''
     num (Bool) Boolean variable that indicates whether the point digits should appear in the graph. Default is False, not shows the numbers
 
@@ -48,7 +50,7 @@ def plt2(x,y,m='y',cmap='viridis',titulo='',xtex='',ytex='',num=False):
         m=y
     if num:
         for i in xrange(len(x)):
-            annotate(str(i),xy=(x[i],y[i]))
+            annotate(str(i+inicio),xy=(x[i],y[i]))
     scatter(x,y,c=m,marker='.',cmap=cmap)
     xlabel(xtex)
     ylabel(ytex)
@@ -57,7 +59,7 @@ def plt2(x,y,m='y',cmap='viridis',titulo='',xtex='',ytex='',num=False):
     show()
     return
 
-def fractal(N_lados,nivel,lista='primos',num=False,inicio=0,salvar=False,retornar=False):
+def fractal(N_lados,nivel,lista=[],num=False,inicio=0,salvar=False,retornar=False):
     '''
     It makes the visual panel developed by Isaac Victor Silva Rodrigues, Lúcia Maria dos Santos Pinto and Juscelino Bezerra dos Santos the project in Escola Nacional de Ciências Estatísticas
     The panel is based on the Ulam Spiral to make a visual representation of sequences of integers. Read more about: en.wikipedia.org/wiki/Ulam_spiral
@@ -69,7 +71,7 @@ def fractal(N_lados,nivel,lista='primos',num=False,inicio=0,salvar=False,retorna
 
     N_lados (int) Number of sides of the base polygon for the fractal ngon
     level (int) Level of construction of the fractal Ngon
-    list (List) Number sequence you want to highlight. Default is prime list before
+    list (List) Number sequence you want to highlight  with red.
     num (Bool) Boolean variable that indicates whether the point digits should appear in the graph. Default is False, not shows the numbers
     inicio (int) Start of the enumeration used in the fractal points. Default is 0
     salvar (Bool) If you want to save the sorted ordered pairs. The program will save to a text file .txt, where the coordinates appear in column format.
@@ -82,6 +84,7 @@ def fractal(N_lados,nivel,lista='primos',num=False,inicio=0,salvar=False,retorna
     plot of the visual panel or x and y values of coordenates of barycentres
     '''
     t_pontos=N_lados**nivel
+    TOTAL=t_pontos+inicio
     fator_s=0.5/sum([cos(2*pi*k/N_lados) for k in xrange(N_lados/4+1)])
     if N_lados in (2,4):
         fator_s=1/3.0           
@@ -118,9 +121,10 @@ def fractal(N_lados,nivel,lista='primos',num=False,inicio=0,salvar=False,retorna
     Ypri=[]
     if type(lista) in (type(set([])),type([])):
         for i in lista:
-            if i<t_pontos:
-                Xpri.append(X[i-inicio])
-                Ypri.append(Y[i-inicio])
+            if inicio<=i<TOTAL:
+                I=i-inicio
+                Xpri.append(X[I])
+                Ypri.append(Y[I])
     if num:
         plt(X,Y,Xpri,Ypri,inicio,num)
     else:
@@ -130,8 +134,7 @@ def fractal(N_lados,nivel,lista='primos',num=False,inicio=0,salvar=False,retorna
 def pltpropor(base,nivel,sn,X=False,Y=False,lista="primos",pro=False,cmap='viridis',anotate=False,titulo=''):
     subnivel=nivel-sn
     if False in (X,Y): X,Y=fractal(base,subnivel,retornar=True)
-    print len(X)
-    if lista=="primos": lista=atkin(base**nivel)
+    if lista=="primos": lista=atkin(base**nivel-1)
     if not pro: lista=estratos_com_elementos(base,nivel,sn,lista)
     if pro and len(lista)>base**subnivel:
         aux=[0]*(6**subnivel)
@@ -142,7 +145,6 @@ def pltpropor(base,nivel,sn,X=False,Y=False,lista="primos",pro=False,cmap='virid
             annotate(str(i),xy=(X[i],Y[i]))
 
     title(titulo)
-    print len(lista),len(X)
     scatter(X,Y,c=lista,marker=".",cmap=cmap) 
     colorbar()
     axis("equal")

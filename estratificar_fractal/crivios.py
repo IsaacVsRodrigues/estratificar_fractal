@@ -556,7 +556,7 @@ def nlucas(ate,l1=2,l2=1):
     s=2
     while L[-1]<ate:
         L.append(L[-2]+L[-1])
-    return L
+    return L[:-1]
 
 def fibonacci(ate):
     ''' fibonacci sequence Read about www.teses.usp.br/teses/disponiveis/55/55136/tde-03032017-143706/pt-br.php
