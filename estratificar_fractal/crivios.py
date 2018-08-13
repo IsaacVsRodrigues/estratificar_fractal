@@ -479,7 +479,7 @@ def coprimos(com,ate):
      
      Args:
      com (int) Number of witch we want know coprimes with him, 
-     até (int) limit of seach coprime
+     ate (int) limit of seach coprime
 
      Return:
      co (list) of all coprimes with 'com' before 'ate' '''
