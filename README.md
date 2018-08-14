@@ -69,11 +69,11 @@ Contato pessoal: [Isaac Victor Silva Rodrigues](isaacvictor@fisica.if.uff.br), e
 ## Authors
 
 
-* **Isaac Victor Silva Rodrigues** - Estudante do projeto de iniciação cientifica
+* **Isaac Victor Silva Rodrigues** - Estudante do projeto de iniciação cientifica.
 
-* **Lúcia Maria dos Santos Pinto** - Orientadora do projeto de iniciação cientifica
+* **Lúcia Maria dos Santos Pinto** - Orientadora do projeto de iniciação cientifica.
 
-* **Juscelino Bezerra dos Santos** - Co-orientador do projeto de iniciação cientifica
+* **Juscelino Bezerra dos Santos** - Co-orientador do projeto de iniciação cientifica.
 
 
 ## Licença
