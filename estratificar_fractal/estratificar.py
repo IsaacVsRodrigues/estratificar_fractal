@@ -1,10 +1,15 @@
 ﻿from crivios import *
-from matplotlib.pyplot import plot, show, axis, legend, grid, annotate, subplot, title, scatter, xlabel, ylabel, colorbar
+import numpy as np
+from matplotlib.pyplot import plot, show, axis, legend, grid, annotate,subplots, subplot, title, scatter, xlabel, ylabel, colorbar
+from matplotlib.patches import RegularPolygon
+from matplotlib.collections import PatchCollection
+from mpldatacursor import datacursor
 import os
 
-def plt(Xn,Yn,Xnpri,Ynpri,inicio=0,num=False):
+
+def plt(Xn,Yn,Xnpri,Ynpri,inicio=0,num=False,poli=[False]):
     '''Construct the scatter plot of the "n" and "npri" graphics. The graph "n" below the graph "npri" will be constructed.
-     
+ 
     Args:
 
     Xn (List) X coordinate of the points of the graph "n"
@@ -13,17 +18,34 @@ def plt(Xn,Yn,Xnpri,Ynpri,inicio=0,num=False):
     Ynpri (List) Y coordinate of the graph "npri"
     inicio (Int) Start of the enumeration of the points of the graph "n". Default is 0. 
     num (Bool) Boolean variable that indicates whether the point digits should appear in the graph. Default is False, not shows the numbers
-
+	poli (list) Information of poligonos, poli=[Bool,Number of sides, distance between barycenter and vetex], if poli[0]=True program will try draw a poligon.
     Return:
-
     Returns the scatter plot of n and npri points.
     '''
-    if num:
-        for i in xrange(len(Xn)):
-            annotate(str(i+inicio),xy=(Xn[i],Yn[i]))
-    plot(Xn,Yn,'.',color='black')
-    plot(Xnpri,Ynpri,'.',color='red')
+    fig,ax=subplots()
+    Xn=np.array(Xn)
+    Yn=np.array(Yn)
+    if poli[0]:	
+	    poligonos=[]
+	    polipri=[]
+	    rpoli=poli[2]
+	    N_lados=poli[1]
+	    for i in xrange(len(Xn)):
+	        poligonos.append(RegularPolygon((Xn[i],Yn[i]),N_lados,rpoli))
+	    for i in xrange(len(Xnpri)):
+	    	polipri.append(RegularPolygon((Xnpri[i],Ynpri[i]),N_lados,rpoli))
+	    ax.add_collection(PatchCollection(poligonos,color="black"))
+	    ax.add_collection(PatchCollection(polipri,color="red"))
+    else:
+    	plot(Xn,Yn,'.',color='black')
+    	plot(Xnpri,Ynpri,'.',color='red')
     axis('equal')
+    if num:
+        def numeros(**kwargs):
+            dist =abs(Xn - kwargs['x'])+abs((Yn - kwargs['y']))
+            i = dist.argmin()
+            return str(i)
+        datacursor(hover=True, formatter=numeros)
     show()
     return
 
@@ -59,7 +81,7 @@ def plt2(x,y,m='y',cmap='viridis',titulo='',xtex='',ytex='',inicio=0,num=False):
     show()
     return
 
-def fractal(N_lados,nivel,lista=[],num=False,inicio=0,salvar=False,retornar=False):
+def fractal(N_lados,nivel,lista=[],num=False,inicio=0,salvar=False,retornar=False,poligonos=False):
     '''
     It makes the visual panel developed by Isaac Victor Silva Rodrigues, Lúcia Maria dos Santos Pinto and Juscelino Bezerra dos Santos the project in Escola Nacional de Ciências Estatísticas
     The panel is based on the Ulam Spiral to make a visual representation of sequences of integers. Read more about: en.wikipedia.org/wiki/Ulam_spiral
@@ -76,12 +98,13 @@ def fractal(N_lados,nivel,lista=[],num=False,inicio=0,salvar=False,retornar=Fals
     inicio (int) Start of the enumeration used in the fractal points. Default is 0
     salvar (Bool) If you want to save the sorted ordered pairs. The program will save to a text file .txt, where the coordinates appear in column format.
     retornar (Bool) If you want to return the result of the calculation of the baricenters out of the function
-
+    poligonos (Bool) If user want to draw the poligons of last level on plot
 
     Return:
 
-    Two possible outputs are:
-    plot of the visual panel or x and y values of coordenates of barycentres
+    Some possibles  outputs are:
+    plot of the visual panel or 
+    x and y values of coordenates of barycentres of last construction level  
     '''
     t_pontos=N_lados**nivel
     TOTAL=t_pontos+inicio
@@ -91,7 +114,7 @@ def fractal(N_lados,nivel,lista=[],num=False,inicio=0,salvar=False,retornar=Fals
     angulo=pi/2
     angulos=[]
     delta=2*pi/N_lados
-    Raio=fator_s**nivel
+    Raio=1
     Raios=[]    
     for i in xrange(N_lados):
         angulos.append((cos(angulo+i*delta),sin(angulo+i*delta)))
@@ -99,14 +122,14 @@ def fractal(N_lados,nivel,lista=[],num=False,inicio=0,salvar=False,retornar=Fals
     X=[0.0]
     Y=[0.0]
     for i in xrange(nivel):
-        for j in xrange(N_lados**i):
-            x,y=X[j],Y[j]
-            for k in xrange(N_lados):
-                X.append(x+Raio*angulos[k][0])
-                Y.append(y+Raio*angulos[k][1])
+    	for k in xrange(N_lados):
+        	for j in xrange(N_lados**i):
+        		X.append(X[j]+Raio*angulos[k][0])
+        		Y.append(Y[j]+Raio*angulos[k][1])
         X=X[N_lados**i:]
         Y=Y[N_lados**i:]
-        Raio/=fator_s
+        Raio*=fator_s
+        Raios.append(Raio)
     if retornar:
         return X,Y
     if salvar:
@@ -125,10 +148,7 @@ def fractal(N_lados,nivel,lista=[],num=False,inicio=0,salvar=False,retornar=Fals
                 I=i-inicio
                 Xpri.append(X[I])
                 Ypri.append(Y[I])
-    if num:
-        plt(X,Y,Xpri,Ypri,inicio,num)
-    else:
-        plt(X,Y,Xpri,Ypri)
+    plt(X,Y,Xpri,Ypri,inicio,num,poli=[poligonos,N_lados,Raios[0]/(1-fator_s)-sum(Raios[:-1])])
     return 
 
 def pltpropor(base,nivel,sn,X=False,Y=False,lista="primos",pro=False,cmap='viridis',anotate=False,titulo=''):
@@ -150,6 +170,3 @@ def pltpropor(base,nivel,sn,X=False,Y=False,lista="primos",pro=False,cmap='virid
     axis("equal")
     show()
     return
-
-
-
