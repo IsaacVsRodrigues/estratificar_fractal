@@ -24,14 +24,20 @@ A biblioteca Estratificar foi baseada na Estratificação Visual de Números Int
 O pacote do Python precisa das bibliotecas [Matplotlib](https://matplotlib.org/), [Numpy](http://www.numpy.org/) as outras bibliotecas  utilizadas estão presentes no Python 2.7. Abaixo o leitor pode ver todos os imports feitos pelo o pacote. A biblioteca **crivios é um dos scripts do pacote, ela não precisa ser instalada, pois será instalada ao instalar o pacote**. O pacote está disponível apenas para Python 2.7.* prever-se futuramente uma versão para Python 3.* e para linguagem de programação R.
 ```
 from crivios import *
+import matplotlib
+from matplotlib import colors as mcolors
+matplotlib.use('TkAgg')
+from matplotlib.pyplot import *
+from matplotlib.patches import RegularPolygon
+from matplotlib.collections import PatchCollection
+from mpldatacursor import datacursor
+import os
+import math 
 from numpy import *
 from itertools import  *
-from time import clock,asctime
 from sets import *
 import sys
-from ctypes import *
-from math import *
-from matplotlib.pyplot import plot, show, axis, legend, grid, annotate, subplot, title, scatter, xlabel, ylabel, colorbar
+from ctypes import * 
 ```
 
 ### Instalando
@@ -63,17 +69,17 @@ Também existe um programa executável que pode ser baixado [aqui](https://drive
 
 ## Contato
 
-Contato pessoal: [Isaac Victor Silva Rodrigues](isaacvictor@fisica.if.uff.br), estamos dispostos a receber sugestões e tirar dúvidas
+Contato pessoal: [Isaac Victor Silva Rodrigues](isaacvictor@fisica.if.uff.br), estamos dispostos a receber sugestões e tirar dúvidas.
 
 
 ## Authors
 
 
-* **Isaac Victor Silva Rodrigues** - Estudante do projeto de iniciação cientifica.
+* **Isaac Victor Silva Rodrigues** - Estudante do projeto de iniciação cientifica. [Currículo Lattes](http://lattes.cnpq.br/8338724052006952)
 
-* **Lúcia Maria dos Santos Pinto** - Orientadora do projeto de iniciação cientifica.
+* **Lúcia Maria dos Santos Pinto** - Orientadora do projeto de iniciação cientifica. [Currículo Lattes](http://lattes.cnpq.br/4226375515310772)
 
-* **Juscelino Bezerra dos Santos** - Co-orientador do projeto de iniciação cientifica.
+* **Juscelino Bezerra dos Santos** - Co-orientador do projeto de iniciação cientifica. [Currículo Lattes](http://lattes.cnpq.br/1861926240418088)
 
 
 ## Licença
